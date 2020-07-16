@@ -9,27 +9,34 @@
 </head>
 
 <body>
-    <!-- use bootstrap to implement them -->
-    <div id="welcomePage" class="container"></div>
 
-    <div id="login" class="container">
-        <div class="form-group">
-            <input type="email" id="email" placeholder="email address" />
-            <input type="password" id="password" placeholder="password" />
-        </div>
-        <div class="form-group">
-            <button id="signupButton" onclick = "signUp()" type="button" class="btn btn-outline-secondary">
-                Sign up
-            </button>
-            <button id="loginButton" onclick = "logIn()" type="button" class="btn btn-outline-secondary">
-                Log In
-            </button>
+    <div id="welcomePage" class="container my-5">
+        <div class="card">
+            <div class="card-body mx-auto">
+                <h2 class="text-center"> Welcome!</h2>
+                <div class="form-group py-5 my-5">
+                    <div class = "mx-5 px-5">
+                    <input type="email" id="email" placeholder="email address"  class = "border border-primary"/>
+
+                    <input type="password" id="password" placeholder="password" class = "border border-primary"/>
+
+                    <button id="loginButton" onclick="logIn()" type="button" class="btn btn-primary">
+                        Log In
+                    </button>
+                    <button id="signupButton" onclick="signUp()" type="button" class="btn btn-secondary">
+                        Sign up
+
+                    </button>
+                </div>
+            </div>
+            </div>
         </div>
     </div>
 
-    <div id="register" class="container"></div>
-
     <div class="container my-5" id="taskListPage">
+        <button id="signoutButton" onclick="signOut()" type="button" class="btn btn-info mb-5">
+            Sign Out
+        </button>
         <div class="card">
             <div class="card-body">
                 <h4 class="text-center">Task List</h4>

@@ -1,17 +1,62 @@
 class Task {
-    constructor(id, title, sortKey = 0) {
+    constructor(id, title, uid) {
         this.id = id;
         this.title = title;
-        //   this.priorityId = "";
         this.priority = {};
-        this.sortKey = 0;
+        // this.sortKey = 0;
+        this.uid = uid;
     }
 }
+
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+
+function signUp() {
+    firebase.auth()
+        .createUserWithEmailAndPassword(email.value, password.value)
+        .then(user => {
+            console.log("Once a user has been created", user);
+            alert("Account created!")
+        })
+        .catch(err => {
+            alert(err);
+        })
+    }
+
+function logIn() {
+    firebase.auth()
+    .signInWithEmailAndPassword(email.value, password.value)
+    .then(user => {
+        console.log("User has logged in", user);
+    })
+    .catch(err => {
+        alert(err);
+    })
+}
+
+function signOut(){
+    firebase.auth().signOut();
+    alert("sign out")
+}
+
+document.getElementById("taskListPage").style.display = 'none';
+document.getElementById("welcomePage").style.display = 'none';
+
+firebase.auth().onAuthStateChanged(function(user){
+    if (user) {
+        document.getElementById("welcomePage").style.display = 'none';
+        document.getElementById("taskListPage").style.display = 'block';
+    } else {
+        document.getElementById("taskListPage").style.display = 'none';
+        document.getElementById("welcomePage").style.display = 'block';
+    }
+});
 
 class TaskListPage {
     constructor() {
         this.tasks = [];
         this.priorities = [];
+        this.users = [];
 
         firebase.database().ref("priorities").once("value", (prioritiesSnapshot) => {
             const allPriorities = prioritiesSnapshot.val();
@@ -25,6 +70,12 @@ class TaskListPage {
                 this.priorities.push(priority);
             });
 
+            
+            
+            const user = firebase.auth().currentUser;
+            const userId = user.uid
+            console.log(userId)
+
             firebase.database()
                 // .orderByChild("sortKey")
                 .ref("tasks")
@@ -35,7 +86,7 @@ class TaskListPage {
                     // takes any object and returns array of strings
                     Object.keys(allTasks).forEach(taskId => {
                         const taskData = allTasks[taskId];
-                        const task = new Task(taskId, taskData.title);
+                        const task = new Task(taskId, taskData.title, userId);
 
                         if (taskData.priorityId) {
                             console.log(taskData);
@@ -44,8 +95,14 @@ class TaskListPage {
                             console.log(task)
                         }
 
+                        // if (taskData.userId) {
+                        //     const usersId = this.users.find(usersId => user.uid == taskData.userId);
+                        //     task.uid = usersId;
+                        // }
+
                         this.tasks.push(task);
                         // console.log(this.tasks);
+
 
                         const taskListElement = document.getElementById("taskList");
                         const row = document.createElement("tr");
@@ -57,6 +114,16 @@ class TaskListPage {
                     </td>
                     `;
                         taskListElement.appendChild(row);
+
+                        // const user = firebase.auth().currentUser;
+                        // if (user != null) {
+                        //     user.providerData.forEach(function (task) {
+                        //         console.log("UID: " + task.uid);
+                        //         console.log("email: " + task.email);
+                        //     })
+                        // }
+
+
                     });
                 });
         });
@@ -65,7 +132,7 @@ class TaskListPage {
     addTask(title) {
         const db = firebase.database();
 
-        const sortKey = this.tasks.length + 1;
+        // const sortKey = this.tasks.length + 1;
 
         // push() creates new identity and pushes it
         // set() depends on having an id already (more so used for updating)
@@ -75,19 +142,22 @@ class TaskListPage {
         //     title: title
         // });
 
+        const user = firebase.auth().currentUser; 
+
         const newTaskSnapshot = db.ref('tasks').push({
             title: title,
-            sortKey: sortKey
+            // sortKey: sortKey,
+            userId: user.uid
         });
 
         const taskId = newTaskSnapshot.key
 
-        const task = new Task(taskId, title);
+        const task = new Task(taskId, title, user.uid);
         this.tasks.push(task);
 
         const taskListElement = document.getElementById("taskList");
         const row = document.createElement("tr");
-        row.setAttribute("data-task-id", task.id);
+        row.setAttribute("data-task-id", task.id, task.userId);
         row.innerHTML = `
       <td>${task.title}</td>
       <td><button data-action="edit" data-task-id="${task.id}" class="btn btn-primary">Edit</button>
@@ -121,7 +191,7 @@ class TaskListPage {
 
                 const taskInputElement = document.getElementById("task");
                 taskInputElement.value = task.title;
-                taskInputElement.setAttribute("data-task-id", task.id);
+                taskInputElement.setAttribute("data-task-id", task.id, task.userId);
                 document.getElementById("addBtn").innerText = "Save";
             }
         }
@@ -159,33 +229,6 @@ class TaskListPage {
         // remove the html element
         existingRow.remove();
     }
-}
-
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-
-function signUp() {
-    firebase.auth()
-        .createUserWithEmailAndPassword(email.value, password.value)
-        .then(user => {
-            console.log("Once a user has been created", user);
-            alert("Account created!")
-        })
-        .catch(err => {
-            alert(err);
-        })
-}
-
-function logIn() {
-    firebase.auth()
-    .signInWithEmailAndPassword(email.value, password.value)
-    .then(user => {
-        console.log("User has logged in", user);
-        alert("Signed in successfully!")
-    })
-    .catch(err => {
-        alert(err);
-    })
 }
 
 const taskListPage = new TaskListPage();
