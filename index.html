@@ -10,14 +10,29 @@
 
 <body>
     <!-- use bootstrap to implement them -->
-    <div id = "welcomePage" class = "container"></div>
-    <div id = "login" class = "container"></div>
-    <div id = "register" class = "container"></div>
+    <div id="welcomePage" class="container"></div>
 
-    <div class="container my-5" id = "taskListPage">
+    <div id="login" class="container">
+        <div class="form-group">
+            <input type="email" id="email" placeholder="email address" />
+            <input type="password" id="password" placeholder="password" />
+        </div>
+        <div class="form-group">
+            <button id="signupButton" onclick = "signUp()" type="button" class="btn btn-outline-secondary">
+                Sign up
+            </button>
+            <button id="loginButton" onclick = "logIn()" type="button" class="btn btn-outline-secondary">
+                Log In
+            </button>
+        </div>
+    </div>
+
+    <div id="register" class="container"></div>
+
+    <div class="container my-5" id="taskListPage">
         <div class="card">
             <div class="card-body">
-                <h4 class = "text-center">Task List</h4>
+                <h4 class="text-center">Task List</h4>
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <input id="task" class="form-control" type="text" placeholder="enter your task!" />
@@ -54,6 +69,7 @@
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-auth.js"></script>
     <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
     <script>

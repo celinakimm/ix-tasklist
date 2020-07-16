@@ -25,16 +25,6 @@ class TaskListPage {
                 this.priorities.push(priority);
             });
 
-            // console.log(this.priorities);
-            // firebase.auth()
-            //     .createUserWithEmailAndPassword("me@gmail.com", "qwerty")
-            //     .then(user => {
-            //         console.log("Once a user has been created", user);
-            //     })
-            //     .catch(err => {
-            //         console.log(err);
-            //     })
-
             firebase.database()
                 // .orderByChild("sortKey")
                 .ref("tasks")
@@ -169,6 +159,33 @@ class TaskListPage {
         // remove the html element
         existingRow.remove();
     }
+}
+
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+
+function signUp() {
+    firebase.auth()
+        .createUserWithEmailAndPassword(email.value, password.value)
+        .then(user => {
+            console.log("Once a user has been created", user);
+            alert("Account created!")
+        })
+        .catch(err => {
+            alert(err);
+        })
+}
+
+function logIn() {
+    firebase.auth()
+    .signInWithEmailAndPassword(email.value, password.value)
+    .then(user => {
+        console.log("User has logged in", user);
+        alert("Signed in successfully!")
+    })
+    .catch(err => {
+        alert(err);
+    })
 }
 
 const taskListPage = new TaskListPage();
