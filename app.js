@@ -73,8 +73,8 @@ class TaskListPage {
             
             
             const user = firebase.auth().currentUser;
-            const userId = user.uid
-            console.log(userId)
+            const userId = user.uid;
+            console.log(userId);
 
             firebase.database()
                 // .orderByChild("sortKey")
