@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Task List</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+</head>
+
+<body>
+    <!-- use bootstrap to implement them -->
+    <div id = "welcomePage" class = "container"></div>
+    <div id = "login" class = "container"></div>
+    <div id = "register" class = "container"></div>
+
+    <div class="container my-5" id = "taskListPage">
+        <div class="card">
+            <div class="card-body">
+                <h4 class = "text-center">Task List</h4>
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        <input id="task" class="form-control" type="text" placeholder="enter your task!" />
+                        <div class="input-group-append">
+                            <button id="addBtn" type="button" class="btn btn-outline-secondary">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-sm table-bordered mt-2">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Tasks</th>
+                        <th scope="col">Edit</th>
+                    </tr>
+                </thead>
+                <tbody id="taskList"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyD9WGwf5FZMqi5_YARZNG3eyqLNtd-xo9w",
+            authDomain: "ixperience-day6-hw.firebaseapp.com",
+            databaseURL: "https://ixperience-day6-hw.firebaseio.com",
+            projectId: "ixperience-day6-hw",
+            storageBucket: "ixperience-day6-hw.appspot.com",
+            messagingSenderId: "652458052093",
+            appId: "1:652458052093:web:ed6a02d3d7b452a025b194"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
